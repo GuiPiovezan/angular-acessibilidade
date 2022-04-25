@@ -1,18 +1,22 @@
-import { Directive, HostListener, ContentChildren, QueryList } from '@angular/core';
+import {
+  Directive,
+  HostListener,
+  ContentChildren,
+  QueryList,
+} from '@angular/core';
 import { KeyboardManagedItemDirective } from './keyboard-managed-item.directive';
 
 @Directive({
-  selector: '[appKm]'
+  selector: '[appKm]',
 })
 export class KeyboardManagerDirective {
-
-  @ContentChildren(KeyboardManagedItemDirective) public items: QueryList<KeyboardManagedItemDirective> = null;
+  @ContentChildren(KeyboardManagedItemDirective)
+  public items: QueryList<KeyboardManagedItemDirective> = null;
 
   @HostListener('keyup', ['$event'])
   public manageKeys(event: KeyboardEvent): void {
     switch (event.key) {
       case 'ArrowUp':
-        console.log('up');
         this.moveFocus(ArrowDirection.RIGHT).focus();
         break;
       case 'ArrowDown':
@@ -29,8 +33,9 @@ export class KeyboardManagerDirective {
 
   public moveFocus(direction: ArrowDirection): KeyboardManagedItemDirective {
     const items = this.items.toArray();
-    const curentSelectedIndex = items.findIndex(item => item.isFocused());
+    const curentSelectedIndex = items.findIndex((item) => item.isFocused());
     const targetElementFocus = items[curentSelectedIndex + direction];
+
     if (targetElementFocus) {
       return targetElementFocus;
     }
@@ -43,5 +48,5 @@ export class KeyboardManagerDirective {
 
 enum ArrowDirection {
   LEFT = -1,
-  RIGHT = 1
+  RIGHT = 1,
 }
